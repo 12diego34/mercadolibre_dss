@@ -1,0 +1,2 @@
+Sacado de:
+https://github.com/luisramirez-m/mercadolibre-scrapy

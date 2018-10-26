@@ -1,0 +1,9 @@
+Para ejecutar el crawler:
+Dentro de la carpeta vehiculos: scrapy crawl vehiculo
+
+# Problema de ahora: no se por que hay imagenes que no me descarga.
+################## Tareas #####
+# 1. limitar la cantidad de imagenes que capturamos dentro de un item 
+# 2. separar las imagenes en carpetas separadas: autos, motos, etc.
+# 3. Seria mas eficiente tener mas de un scrawler, y que nos dividamos pq la descarga de imagenes tarda mucho.
+# 4. Vamos a tener que borrar a manopla las imagenes que no sirven: por ejemplo las que te muestran el volante, o tienen una marca de agua, etc.
