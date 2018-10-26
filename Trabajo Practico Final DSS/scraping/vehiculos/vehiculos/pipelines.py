@@ -56,7 +56,7 @@ class VehiculosImagenesPipeline(ImagesPipeline):
         #for i in item['imagen_urls']:
         for i in range(len(item['imagen_urls'])):
             print(item['imagen_urls'][i])
-            nombre_imagen = item['categoria'] + item['id'] + str(i)
+            nombre_imagen = item['categoria'] + "_" + item['id'] + "_" +str(i)
             yield Request(item['imagen_urls'][i], meta={'image_name': nombre_imagen})
         print("======================")    
         #return [Request(x, meta={'image_name': item["titulo"]})
