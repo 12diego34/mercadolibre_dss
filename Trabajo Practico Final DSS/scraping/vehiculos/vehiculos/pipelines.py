@@ -40,15 +40,36 @@ class VehiculosPipeline(object):
         return item
 
 
-  
+
 class VehiculosImagenesPipeline(ImagesPipeline):
 
-   # def get_media_requests(self, item, info):
+   
+    
+    def get_media_requests(self, item, info):
+        
+        print("======================")
+        
+        for i in range(len(item['imagen_urls'])):
+            print(item['imagen_urls'][i])
+           
+            nombre_imagen = item['categoria'] + "_" + item['id'] + "_" +str(i)
+            yield Request(item['imagen_urls'][i], meta={'image_name': nombre_imagen})
+            break # Este break hace que solo se guarde la primer foto de cada entrada. Si queres todas
+            #las fotos, saca el break.
+
+
+        print("======================")    
+        
+
+    def file_path(self, request, response=None, info=None):
+        return '%s.jpg' % request.meta['image_name']
+
+    """
+    # def get_media_requests(self, item, info):
     #    nombre_imagen = item['categoria'] + item['id']
         
      #   return [Request(x, meta={'image_name': nombre_imagen,'categoria': item['categoria']})
       #      for x in item.get('imagen_urls', [])]
-    
 
     def get_media_requests(self, item, info):
         #lista_urls = item['imagen_urls'].split(",")
@@ -58,6 +79,7 @@ class VehiculosImagenesPipeline(ImagesPipeline):
             print(item['imagen_urls'][i])
             nombre_imagen = item['categoria'] + "_" + item['id'] + "_" +str(i)
             yield Request(item['imagen_urls'][i], meta={'image_name': nombre_imagen})
+            break
         print("======================")    
         #return [Request(x, meta={'image_name': item["titulo"]})
          #       for x in item.get('imagen_urls', [])]
@@ -66,13 +88,15 @@ class VehiculosImagenesPipeline(ImagesPipeline):
         return '%s.jpg' % request.meta['image_name']
             
 
-        
-        
-    #def file_path(self, request, response=None, info=None):
+       #def file_path(self, request, response=None, info=None):
      #   print("======================")
       #  print(request.meta['image_name'])
        # print(request.meta['categoria'])
        # print("======================")
        # return '%s.jpg' % request.meta['image_name']
 
+    """
+        
+        
+ 
 
