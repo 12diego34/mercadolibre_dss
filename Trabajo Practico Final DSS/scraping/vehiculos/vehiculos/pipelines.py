@@ -54,7 +54,8 @@ class VehiculosImagenesPipeline(ImagesPipeline):
            
             nombre_imagen = item['categoria'] + "_" + item['id'] + "_" +str(i)
             yield Request(item['imagen_urls'][i], meta={'image_name': nombre_imagen})
-            break # Este break hace que solo se guarde la primer foto de cada entrada. Si queres todas
+            if(i>3):
+                break # Este break hace que solo se guarde la primer foto de cada entrada. Si queres todas
             #las fotos, saca el break.
 
 

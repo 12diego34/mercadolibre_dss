@@ -10,7 +10,7 @@ from random import randint
 class Furgoneta1Spider(CrawlSpider):
     name = "furgoneta1"
     item_count = 1
-    MAX_ITEMS = 350
+    MAX_ITEMS = 2500
 
     allowed_domain = ['www.mercadolibre.com.ar']
     
@@ -45,7 +45,7 @@ class Furgoneta1Spider(CrawlSpider):
 class Furgoneta2Spider(CrawlSpider):
     name = "furgoneta2"
     item_count = 1
-    MAX_ITEMS = 350
+    MAX_ITEMS = 500
     
     allowed_domain = ['www.mercadolibre.com.ar']
     
@@ -80,7 +80,7 @@ class Furgoneta2Spider(CrawlSpider):
 class Furgoneta3Spider(CrawlSpider):
     name = "furgoneta3"
     item_count = 1
-    MAX_ITEMS = 300
+    MAX_ITEMS = 400
 
     allowed_domain = ['www.mercadolibre.com.ar']
     
@@ -110,6 +110,9 @@ class Furgoneta3Spider(CrawlSpider):
         self.item_count += 1
         
         yield item
+
+
+
 
 
 
