@@ -26,8 +26,13 @@ def index():
 def prediccion():
     result = "HOLA"
     #return jsonify(result)
+    print("======")
+    print(request)
+    return jsonify(result)
     
-    if request.method == 'POST' and 'inputImagen' in request.files:
+
+    """
+    if request.method == 'POST' and 'inputImagen' in request.imagen:
         foto = request.files['inputImagen']
         result = "CHAU"
         if foto == None or not allowed_file(foto.filename):
@@ -45,7 +50,7 @@ def prediccion():
         result = "CAPO"         
 
     return jsonify(result)
-    
+    """
 
 @app.errorhandler(404)
 def not_found(error):

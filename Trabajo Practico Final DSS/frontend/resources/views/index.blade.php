@@ -114,21 +114,27 @@
               readURL(this);
           });
 
-          function myFunction(){
+
+          function myFunction2(){
               console.log("hiciste click");
               
 
 
-              var imagen = reader.readAsDataURL(entrada.files[0]);
-              console.log("imagen")
-              var formData = new FormData();
-              formData.append("inputImagen", imagen);
+              //var imagen = reader.readAsDataURL(entrada.files[0]);
+              var imagen_base64 = $("#imagen").attr('src');
+              //console.log(imagen_base64 + "=======");
+              var myObj = {imagen: imagen_base64};
+
+              console.log(myObj.imagen + "=======");
+              //console.log("imagen")
+              //var formData = new FormData();
+              //formData.append("inputImagen", imagen);
               //formData.append("fileToUpload", ['te envio esta']);
 
               $.ajax({
                 url: "http://127.0.0.1:5000/prediccion",
                 type: "POST",
-                data: formData,
+                data: myObj,
                 processData: false,
                 contentType: false,
                 success: function(response) {
@@ -141,6 +147,62 @@
               });
             
           }
+
+
+
+
+
+function myFunction()
+{
+  var url = "url/action";                
+var image = $('#imagen').attr('src');
+var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
+var blob = base64ToBlob(base64ImageContent, 'image/png');                
+var formData = new FormData();
+formData.append('picture', blob);
+
+$.ajax({
+    url: url, 
+    type: "POST", 
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function(response) {
+                    // .. do something
+                    console.log(response)
+                },
+    data: formData})
+        .done(function(e){
+            alert('done!');
+        });
+}
+
+
+function base64ToBlob(base64, mime) 
+{
+    mime = mime || '';
+    var sliceSize = 1024;
+    var byteChars = window.atob(base64);
+    var byteArrays = [];
+
+    for (var offset = 0, len = byteChars.length; offset < len; offset += sliceSize) {
+        var slice = byteChars.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, {type: mime});
+}
+          
+
+
     </script>
   </body>
 
