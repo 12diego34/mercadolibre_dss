@@ -25,21 +25,27 @@ def index():
 @app.route('/prediccion', methods=['GET', 'POST'])
 def prediccion():
     result = "HOLA"
-    return jsonify(result)
-    """
+    #return jsonify(result)
+    
     if request.method == 'POST' and 'inputImagen' in request.files:
         foto = request.files['inputImagen']
+        result = "CHAU"
         if foto == None or not allowed_file(foto.filename):
             result = "Archivo incorrecto"
         else:
-            s = "tmp.png"
-            foto.save(s)
-            i = cv2.imread('tmp.png', 0)
+            #s = "tmp.png"
+            #foto.save(s)
+            print("=================")
+            result = type(foto) 
+            cv2.imwrite("C:/Users/Asus/Documents/mercadolibre_dss/Trabajo Practico Final DSS/backend",foto) 
+            #i = cv2.imread('tmp.png', 0)
             #i = np.asarray(Image.open(s))
-           # result = predictor.predecir(i)          
+           # result = predictor.predecir(i) 
+    else:
+        result = "CAPO"         
 
     return jsonify(result)
-    """
+    
 
 @app.errorhandler(404)
 def not_found(error):

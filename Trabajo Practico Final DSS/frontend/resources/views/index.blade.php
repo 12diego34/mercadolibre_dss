@@ -51,7 +51,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h1 class="mt-5">A Bootstrap 4 Starter Template</h1>
+          <h1 id="titulo" class="mt-5">A Bootstrap 4 Starter Template</h1>
           <p class="lead">Complete with pre-defined file paths and responsive navigation!</p>
           <div class="container">
               <div class="row">
@@ -61,12 +61,13 @@
                                 <div style="text-align:center;">
                                   <div class="form-group">
                                     <label for="images">File input</label>
-                                    <input type="file" id="imgInp" name="images" accept="image/*" multiple>
+                                    <input type="file" id="filechooser" name="images" accept="image/*">
                                     <p class="help-block">Select Images to Upload.</p>
-                                    <img id="blah"  width="300px"/> 
+                                    <img id="imagen"  width="300px"/> 
                                     <br>
                                     <br>
-                                    <input type="submit" value="Predecir" class="btn btn-success">
+                                    <!-- <input type="submit" value="Predecir" class="btn btn-success"> -->
+                                    <input type="button" value="Predecir" class="btn btn-success" onclick="myFunction()">
                                   </div>
                                 </div>
                         </div>
@@ -95,21 +96,51 @@
     <script src={{ asset("js/app.js") }}></script>
     <script>
           
+          var reader = "";
+          var entrada = ""
           function readURL(input) {
               if (input.files && input.files[0]) {
-                  var reader = new FileReader();
-
+                  reader = new FileReader();
+                  entrada = input
                   reader.onload = function (e) {
-                      $('#blah').attr('src', e.target.result);
+                      $('#imagen').attr('src', e.target.result);
                   }
 
                   reader.readAsDataURL(input.files[0]);
               }
           }
 
-          $("#imgInp").change(function(){
+          $("#filechooser").change(function(){
               readURL(this);
           });
+
+          function myFunction(){
+              console.log("hiciste click");
+              
+
+
+              var imagen = reader.readAsDataURL(entrada.files[0]);
+              console.log("imagen")
+              var formData = new FormData();
+              formData.append("inputImagen", imagen);
+              //formData.append("fileToUpload", ['te envio esta']);
+
+              $.ajax({
+                url: "http://127.0.0.1:5000/prediccion",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // .. do something
+                    console.log(response)
+                },
+                error: function(jqXHR, textStatus, errorMessage) {
+                    console.log(errorMessage); // Optional
+                }
+              });
+            
+          }
     </script>
   </body>
 
