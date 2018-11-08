@@ -25,6 +25,8 @@ def index():
 @app.route('/prediccion', methods=['GET', 'POST'])
 def prediccion():
     result = "HOLA"
+    print(request.get_data())
+    print(request.get_json())
     #return jsonify(result)
     print("======")
     print(request)

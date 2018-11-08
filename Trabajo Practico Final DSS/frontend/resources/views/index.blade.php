@@ -154,15 +154,16 @@
 
 function myFunction()
 {
+  //var url = "url/action";                
   var url = "url/action";                
 var image = $('#imagen').attr('src');
-var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
-var blob = base64ToBlob(base64ImageContent, 'image/png');                
+//var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
+//var blob = base64ToBlob(base64ImageContent, 'image/png');                
 var formData = new FormData();
-formData.append('picture', blob);
+formData.append('picture', image);
 
 $.ajax({
-    url: url, 
+    url: "http://127.0.0.1:5000/prediccion",
     type: "POST", 
     cache: false,
     contentType: false,
@@ -177,9 +178,9 @@ $.ajax({
         });
 }
 
-
+/*
 function base64ToBlob(base64, mime) 
-{
+ {
     mime = mime || '';
     var sliceSize = 1024;
     var byteChars = window.atob(base64);
@@ -199,7 +200,7 @@ function base64ToBlob(base64, mime)
     }
 
     return new Blob(byteArrays, {type: mime});
-}
+} */
           
 
 
