@@ -5,6 +5,7 @@ from PIL import Image
 #import models
 from models import AdjustVariable
 import cv2
+import json
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -33,12 +34,42 @@ def prediccion():
     print("======")
     print(request)
 
-    imgdata = base64.b64decode(request.get_data())
+
+    #bloque = request.get_data().decode('utf8').replace("'", '"')
+    bloque = request.get_data()[92:-47]
+    #data = json.loads(my_json)
+    
+
+    #sub_string_remove = "b'------WebKitFormBoundaryvhOnfw5y4gYgefjs\r\nContent-Disposition: form-data; name="
+    #bloque.replace("b'------","")#kc0qfcvaQMflBquV
+    #bloque.replace("WebKitFormBoundary","")
+    #bloque[100:-52]
+    #print(bloque[92:-47])
+    #bloque = bloque[92:-47]
+    print(bloque)
+    print(type(bloque))
+    
+    
+    missing_padding = len(bloque) % 4
+    if missing_padding != 0:
+        bloque += b'='* (4 - missing_padding)
+
+
+
+    #=\r\n------WebKitFormBoundarykc0qfcvaQMflBquV--\r\n'
+    imgdata = base64.b64decode(bloque)
+    print(imgdata)
+    
+    #fh = open("pruebab64.jpg", "wb")
+    #fh.write(bloque.decode('base64'))
+    #fh.close()
+    
     
     filename = 'pruebab64.jpg' 
     with open(filename, 'wb') as f:
         f.write(imgdata)
     
+
     return jsonify(result)
     
 
@@ -69,3 +100,15 @@ def not_found(error):
 
 if __name__ == '__main__':
     app.run(debug = True)
+
+def decode_base64(data):
+    """Decode base64, padding being optional.
+
+    :param data: Base64 data as an ASCII byte string
+    :returns: The decoded byte string.
+
+    """
+    missing_padding = len(data) % 4
+    if missing_padding != 0:
+        data += b'='* (4 - missing_padding)
+    return base64.decodestring(data)
