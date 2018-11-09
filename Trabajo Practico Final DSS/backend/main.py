@@ -2,7 +2,7 @@ from flask import Flask, flash, jsonify, make_response, request, render_template
 import numpy as np
 import base64
 from PIL import Image
-#import models
+from models import Predictor
 from models import AdjustVariable
 import cv2
 import json
@@ -70,8 +70,26 @@ def prediccion():
         f.write(imgdata)
     
 
+
+    #------------ Lo NUEVO ---------------#
+    path="./pruebab64.jpg"
+    img = cv2.imread(path)
+    resize_img=cv2.resize(img, (28,28))
+    resize_img = cv2.cvtColor(resize_img,cv2.COLOR_BGR2GRAY) 
+    resize_img = resize_img / 255 
+    array_img = resize_img.ravel()
+
+    cv2.imwrite(path,resize_img)  
+
+    Xnew = []
+    Xnew.append(array_img)
+
+    predictor = Predictor()
+    result = predictor.predecir(Xnew) 
+
     return jsonify(result)
     
+
 
     """
     if request.method == 'POST' and 'inputImagen' in request.imagen:
