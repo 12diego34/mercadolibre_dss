@@ -156,27 +156,36 @@ function myFunction()
 {
   //var url = "url/action";                
   var url = "url/action";                
-var image = $('#imagen').attr('src');
-//var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
-//var blob = base64ToBlob(base64ImageContent, 'image/png');                
-var formData = new FormData();
-formData.append('picture', image);
+  var image = $('#imagen').attr('src');
 
-$.ajax({
-    url: "http://127.0.0.1:5000/prediccion",
-    type: "POST", 
-    cache: false,
-    contentType: false,
-    processData: false,
-    success: function(response) {
-                    // .. do something
-                    console.log(response)
-                },
-    data: formData})
-        .done(function(e){
-            alert('done!');
-        });
-}
+  //Inicio Prueba
+  var block = image.split(";");
+  var contentType = block[0].split(":")[1];
+  var realData = block[1].split(",")[1];
+  
+
+  //Fin Prueba
+
+  //var base64ImageContent = image.replace(/^data:image\/(png|jpg);base64,/, "");
+  //var blob = base64ToBlob(base64ImageContent, 'image/png');                
+  var formData = new FormData();
+  formData.append('picture', realData);
+
+  $.ajax({
+      url: "http://127.0.0.1:5000/prediccion",
+      type: "POST", 
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(response) {
+                      // .. do something
+                      console.log(response)
+                  },
+      data: formData})
+          .done(function(e){
+              alert('done!');
+          });
+  }
 
 /*
 function base64ToBlob(base64, mime) 

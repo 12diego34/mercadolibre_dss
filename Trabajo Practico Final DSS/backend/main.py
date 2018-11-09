@@ -25,11 +25,20 @@ def index():
 @app.route('/prediccion', methods=['GET', 'POST'])
 def prediccion():
     result = "HOLA"
-    print(request.get_data())
+    print(request.get_data()) #--> este es el que trae la imagen.
+    print("==========")
     print(request.get_json())
     #return jsonify(result)
+    print(len(request.get_data()))
     print("======")
     print(request)
+
+    imgdata = base64.b64decode(request.get_data())
+    
+    filename = 'pruebab64.jpg' 
+    with open(filename, 'wb') as f:
+        f.write(imgdata)
+    
     return jsonify(result)
     
 
