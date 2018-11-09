@@ -1,0 +1,4 @@
+Para ejecutar frontend, ir a carpeta frontend:
+>> php artisan serve
+Para ejecutar backend, ir a carpeta backend:
+>> python main.py
