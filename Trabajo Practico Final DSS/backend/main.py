@@ -24,62 +24,41 @@ def index():
     
 @app.route('/prediccion', methods=['GET', 'POST'])
 def prediccion():
-    result = "HOLA"
-    print(request.get_data()) #--> este es el que trae la imagen.
-    print("==========")
-    print(request.get_json())
-    #return jsonify(result)
-    print(len(request.get_data()))
-    print("======")
-    print(request)
-
-
-    #bloque = request.get_data().decode('utf8').replace("'", '"')
+    result = "Entre"
+    print(request.get_data()) #--> este es el que trae la imagen codificada en Base64.
+    
+    # Parseamos request y nos quedamos solo con los bytes de la imagen.
     bloque = request.get_data()[92:-47]
-    #data = json.loads(my_json)
     
-
-    #sub_string_remove = "b'------WebKitFormBoundaryvhOnfw5y4gYgefjs\r\nContent-Disposition: form-data; name="
-    #bloque.replace("b'------","")#kc0qfcvaQMflBquV
-    #bloque.replace("WebKitFormBoundary","")
-    #bloque[100:-52]
-    #print(bloque[92:-47])
-    #bloque = bloque[92:-47]
-    print(bloque)
-    print(type(bloque))
-    
-    
+    # Resolvemos problemas de incompatibilidad.
     missing_padding = len(bloque) % 4
     if missing_padding != 0:
         bloque += b'='* (4 - missing_padding)
 
-
-
-    #=\r\n------WebKitFormBoundarykc0qfcvaQMflBquV--\r\n'
+    # Decoficamos la imagen.
     imgdata = base64.b64decode(bloque)
     print(imgdata)
     
-    #fh = open("pruebab64.jpg", "wb")
-    #fh.write(bloque.decode('base64'))
-    #fh.close()
-    
-    
+    # Guardamos la imagen.
     filename = 'pruebab64.jpg' 
     with open(filename, 'wb') as f:
         f.write(imgdata)
     
 
-
-    #------------ Lo NUEVO ---------------#
+    # Levantamos la imagen con cv2
     path="./pruebab64.jpg"
     img = cv2.imread(path)
+
+    # Realizamos preprocesamiento a la imagen.
     resize_img=cv2.resize(img, (28,28))
     resize_img = cv2.cvtColor(resize_img,cv2.COLOR_BGR2GRAY) 
     resize_img = resize_img / 255 
     array_img = resize_img.ravel()
 
+    # Guardamos la imagen preprocesada.
     cv2.imwrite(path,resize_img)  
 
+    # Envio la imagen al predictor.
     Xnew = []
     Xnew.append(array_img)
 
@@ -90,26 +69,7 @@ def prediccion():
     
 
 
-    """
-    if request.method == 'POST' and 'inputImagen' in request.imagen:
-        foto = request.files['inputImagen']
-        result = "CHAU"
-        if foto == None or not allowed_file(foto.filename):
-            result = "Archivo incorrecto"
-        else:
-            #s = "tmp.png"
-            #foto.save(s)
-            print("=================")
-            result = type(foto) 
-            cv2.imwrite("C:/Users/Asus/Documents/mercadolibre_dss/Trabajo Practico Final DSS/backend",foto) 
-            #i = cv2.imread('tmp.png', 0)
-            #i = np.asarray(Image.open(s))
-           # result = predictor.predecir(i) 
-    else:
-        result = "CAPO"         
-
-    return jsonify(result)
-    """
+   
 
 @app.errorhandler(404)
 def not_found(error):
@@ -118,14 +78,3 @@ def not_found(error):
 if __name__ == '__main__':
     app.run(debug = True)
 
-def decode_base64(data):
-    """Decode base64, padding being optional.
-
-    :param data: Base64 data as an ASCII byte string
-    :returns: The decoded byte string.
-
-    """
-    missing_padding = len(data) % 4
-    if missing_padding != 0:
-        data += b'='* (4 - missing_padding)
-    return base64.decodestring(data)
