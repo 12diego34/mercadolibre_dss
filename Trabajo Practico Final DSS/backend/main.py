@@ -3,7 +3,6 @@ import numpy as np
 import base64
 from PIL import Image
 from models import Predictor
-from models import AdjustVariable
 import cv2
 import json
 

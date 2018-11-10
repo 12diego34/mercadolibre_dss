@@ -48,6 +48,7 @@
     </nav>
 
     <!-- Page Content -->
+    <div class="content">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -55,7 +56,6 @@
           <p class="lead">Complete with pre-defined file paths and responsive navigation!</p>
           <div class="container">
               <div class="row">
-                <!--  <form action="" method="POST" enctype="multipart/form-data">--> <!-- <form action="http://127.0.0.1:5000/prediccion" method="post" enctype=multipart/form-data> -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:5px;">
                         <div class="panel-heading">
                                 <div style="text-align:center;">
@@ -71,23 +71,55 @@
                                   </div>
                                 </div>
                         </div>
-                </div>
 
-                    
+                </div>
                 <!--  </form> -->
+              </div>
+              <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:5px;">
+                        <div class="panel-heading">
+                            <div style="text-align:center;">
+                                  <div class="table-responsive">
+                                      <table id="tabla" class="table table-sm">
+                                          <thead>
+                                              <tr>
+                                                <th scope="col">Modelo</th>
+                                                <th scope="col">Resultado</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              
+
+                                          </tbody>
+                                        </table>
+                                  </div> 
+                            </div>
+                        </div>
+                  </div>
               </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> <!--container-->
+    </div><!--content-->
 
+
+                          
+
+
+            
     <!-- Footer -->
-    
+    <!-- https://css-tricks.com/couple-takes-sticky-footer/ -->
+    <br>
+    <br>
     <footer class="footer">
       <div class="container">
         <span class="text-muted">Place sticky footer content here.</span>
       </div>
     </footer>
+
+
+   
 
     <!-- Bootstrap core JavaScript -->
     <script src={{ asset("js/jquery-3.3.1.min.js") }}></script>
@@ -115,38 +147,7 @@
           });
 
 
-          function myFunction2(){
-              console.log("hiciste click");
-              
-
-
-              //var imagen = reader.readAsDataURL(entrada.files[0]);
-              var imagen_base64 = $("#imagen").attr('src');
-              //console.log(imagen_base64 + "=======");
-              var myObj = {imagen: imagen_base64};
-
-              console.log(myObj.imagen + "=======");
-              //console.log("imagen")
-              //var formData = new FormData();
-              //formData.append("inputImagen", imagen);
-              //formData.append("fileToUpload", ['te envio esta']);
-
-              $.ajax({
-                url: "http://127.0.0.1:5000/prediccion",
-                type: "POST",
-                data: myObj,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    // .. do something
-                    console.log(response)
-                },
-                error: function(jqXHR, textStatus, errorMessage) {
-                    console.log(errorMessage); // Optional
-                }
-              });
-            
-          }
+          
 
 
 
@@ -154,6 +155,9 @@
 
 function myFunction()
 {
+  $("#tabla > tbody").html("");
+
+
   //var url = "url/action";                
   var url = "url/action";                
   var image = $('#imagen').attr('src');
@@ -179,7 +183,21 @@ function myFunction()
       processData: false,
       success: function(response) {
                       // .. do something
-                      console.log(response)
+                      console.log(response['result'])
+                      console.log(response['result'][0]['nombre_modelo'])
+                      console.log(response['result'][0]['label'])
+                      console.log(response['result'].length)
+
+                      for(var i=0;i<response['result'].length;i++){
+                         var fila = "<tr><td>" + response['result'][i]['nombre_modelo'] + "</td><td>" + response['result'][i]['label'] +"</td></tr>";
+                         $("#tabla").append(fila);
+                      }
+                      
+
+                       
+                          
+                        
+                       
                   },
       data: formData})
           .done(function(e){
@@ -187,29 +205,7 @@ function myFunction()
           });
   }
 
-/*
-function base64ToBlob(base64, mime) 
- {
-    mime = mime || '';
-    var sliceSize = 1024;
-    var byteChars = window.atob(base64);
-    var byteArrays = [];
 
-    for (var offset = 0, len = byteChars.length; offset < len; offset += sliceSize) {
-        var slice = byteChars.slice(offset, offset + sliceSize);
-
-        var byteNumbers = new Array(slice.length);
-        for (var i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-
-        var byteArray = new Uint8Array(byteNumbers);
-
-        byteArrays.push(byteArray);
-    }
-
-    return new Blob(byteArrays, {type: mime});
-} */
           
 
 

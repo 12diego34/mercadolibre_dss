@@ -42,27 +42,6 @@ MODELOS = [
     #}
 ]
 
-class AdjustVariable(object):
-
-    """
-    Used to decreases linearly the learning rate with the number of epochs,
-    while we the momentum increase.
-    """
-    def __init__(self, name, start=0.01, stop=0.001):
-        self.name = name
-        self.start, self.stop = start, stop
-        self.ls = None
-
-    def __call__(self, nn, train_history):
-        if self.ls is None:
-            self.ls = np.linspace(self.start, self.stop, nn.max_epochs)
-
-        epoch = train_history[-1]['epoch']
-        new_value = np.float32(self.ls[epoch - 1])
-        getattr(nn, self.name).set_value(new_value)
-
-
-
 class Predictor:
 
     error = ""
