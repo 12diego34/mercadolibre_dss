@@ -4,8 +4,8 @@ from sklearn.externals import joblib
 CLASES = {
     0: "Auto",
     1: "Buggy",
-    2: "Camioneta",
-    3: "Camion",
+    2: "Camion",
+    3: "Camioneta",
     4: "Colectivo",
     5: "Cuatriciclo",
     6: "Furgon",
