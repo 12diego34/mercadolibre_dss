@@ -10,6 +10,8 @@
 **Archivos Importantes**<br />
 * HiperParametrización.ipynb: hiperparametrización de distintos modelos.<br />
 * Preprocesiento.ipynb: contiene toda la resolución del TP, a excepción de la red CNN.<br />
+* Redes Neuronales.ipynb: contiene la arquitectura de la red y las funciones de Image Occlusion.<br />
+* Redes Neuronales Ivan.ipynb: contiene los gráficos y las métricas de la red.<br />
 * El resto de los archivos no tienen importancia.<br />
 
 **Aplicación Web**<br />
